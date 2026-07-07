@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compound Interest &amp; Dividend Calculator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#EFF3F0;
+    --panel:#FFFFFF;
+    --ink:#152622;
+    --ink-soft:#5C6E68;
+    --teal:#0F5257;
+    --teal-deep:#0A3B3F;
+    --amber:#C08A2E;
+    --line:#DCE3DF;
+    --good:#1F7A5C;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    font-family:'Inter',sans-serif;
+    color:var(--ink);
+    padding:28px 16px 48px;
+  }
+  .wrap{max-width:640px;margin:0 auto;}
+  .masthead{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    margin-bottom:18px;
+    border-bottom:2px solid var(--ink);
+    padding-bottom:10px;
+  }
+  .masthead h1{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:22px;
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+  .masthead span{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    color:var(--ink-soft);
+  }
+  .tabs{display:flex;gap:8px;margin-bottom:16px;}
+  .tab{
+    flex:1;
+    padding:12px 10px;
+    text-align:center;
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:10px;
+    font-weight:600;
+    font-size:14px;
+    cursor:pointer;
+    color:var(--ink-soft);
+    transition:all .15s ease;
+  }
+  .tab.active{
+    background:var(--teal-deep);
+    color:#fff;
+    border-color:var(--teal-deep);
+  }
+  .card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:22px;
+  }
+  .field{margin-bottom:18px;}
+  .field label{
+    display:flex;
+    justify-content:space-between;
+    font-size:13px;
+    font-weight:600;
+    color:var(--ink-soft);
+    margin-bottom:6px;
+  }
+  .field label .val{
+    font-family:'IBM Plex Mono',monospace;
+    color:var(--teal-deep);
+    font-weight:600;
+  }
+  input[type=range]{
+    width:100%;
+    accent-color:var(--teal);
+    height:4px;
+    -webkit-appearance:none;
+    appearance:none;
+    background:var(--line);
+    border-radius:2px;
+    outline:none;
+  }
+  input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none;
+    appearance:none;
+    width:18px;
+    height:18px;
+    border-radius:50%;
+    background:#152622;
+    border:2px solid #fff;
+    box-shadow:0 1px 3px rgba(0,0,0,0.3);
+    cursor:pointer;
+  }
+  input[type=range]::-moz-range-thumb{
+    width:18px;
+    height:18px;
+    border-radius:50%;
+    background:#152622;
+    border:2px solid #fff;
+    box-shadow:0 1px 3px rgba(0,0,0,0.3);
+    cursor:pointer;
+  }
+  input[type=range]::-moz-range-track{
+    background:var(--line);
+    height:4px;
+    border-radius:2px;
+  }
+  input[type=number], input[type=text], select{
+    width:100%;
+    padding:10px 12px;
+    border:1px solid var(--line);
+    border-radius:8px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:14px;
+    color:var(--ink);
+    background:#FBFCFB;
+  }
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .control-row{display:flex;align-items:center;gap:10px;}
+  .control-row input[type=range]{flex:1;}
+  .control-row input[type=number], .control-row input[type=text]{
+    width:120px;
+    flex-shrink:0;
+    padding:8px 10px;
+    text-align:right;
+  }
+  .ticker-select{margin-bottom:14px;}
+  .ticker-select select{font-family:'Inter',sans-serif;font-weight:600;}
+  .divider{height:1px;background:var(--line);margin:20px 0;}
+  .result-head{
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:.04em;
+    color:var(--ink-soft);
+    text-transform:uppercase;
+    margin-bottom:6px;
+  }
+  .result-num{
+    font-family:'Fraunces',serif;
+    font-size:36px;
+    font-weight:600;
+    color:var(--teal-deep);
+    line-height:1.15;
+    margin-bottom:14px;
+  }
+  .result-num small{
+    font-family:'Inter',sans-serif;
+    font-size:15px;
+    font-weight:500;
+    color:var(--ink-soft);
+  }
+  .underline{
+    height:3px;
+    width:0%;
+    background:var(--amber);
+    border-radius:2px;
+    transition:width .6s cubic-bezier(.2,.8,.2,1);
+    margin-bottom:18px;
+  }
+  table{width:100%;border-collapse:collapse;font-size:13px;}
+  td{padding:8px 0;border-bottom:1px dashed var(--line);}
+  td:last-child{text-align:right;font-family:'IBM Plex Mono',monospace;font-weight:600;}
+  td.label{color:var(--ink-soft);}
+  canvas{width:100%;height:140px;margin-top:16px;}
+  .note{font-size:12px;color:var(--ink-soft);margin-top:14px;line-height:1.6;}
+  .badge{
+    display:inline-block;
+    background:#EAF3EF;
+    color:var(--good);
+    font-size:11px;
+    font-weight:700;
+    padding:3px 8px;
+    border-radius:20px;
+    margin-left:6px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="masthead">
+    <h1>Return Calculator</h1>
+    <span>COMPOUND &amp; DIVIDEND</span>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" id="tabCompound" onclick="switchTab('compound')">Compound Interest</div>
+    <div class="tab" id="tabDividend" onclick="switchTab('dividend')">ETF Dividend</div>
+  </div>
+
+  <!-- Compound Interest Calculator -->
+  <div class="card" id="panelCompound">
+    <div class="field">
+      <label>Initial Investment ($)</label>
+      <div class="control-row">
+        <input type="range" id="init" min="0" max="100000" step="500" value="1000" oninput="syncFromSlider('init')">
+        <input type="text" inputmode="numeric" id="initNum" value="1,000" oninput="syncFromMoneyNumber('init')">
+      </div>
+    </div>
+    <div class="field">
+      <label>Monthly Contribution ($)</label>
+      <div class="control-row">
+        <input type="range" id="monthly" min="0" max="5000" step="50" value="500" oninput="syncFromSlider('monthly')">
+        <input type="text" inputmode="numeric" id="monthlyNum" value="500" oninput="syncFromMoneyNumber('monthly')">
+      </div>
+    </div>
+    <div class="field">
+      <label>Expected Annual Return (%)</label>
+      <div class="control-row">
+        <input type="range" id="rate" min="0" max="20" step="0.1" value="7" oninput="syncFromSlider('rate')">
+        <input type="number" id="rateNum" value="7" step="0.1" oninput="syncFromNumber('rate')">
+      </div>
+    </div>
+    <div class="field">
+      <label>Investment Period (Years)</label>
+      <div class="control-row">
+        <input type="range" id="years" min="1" max="40" step="1" value="10" oninput="syncFromSlider('years')">
+        <input type="number" id="yearsNum" value="10" step="1" oninput="syncFromNumber('years')">
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="result-head">Projected Final Balance</div>
+    <div class="result-num" id="finalAmount">-</div>
+    <div class="underline" id="cUnderline"></div>
+
+    <table>
+      <tr><td class="label">Total Principal Invested</td><td id="principalOut">-</td></tr>
+      <tr><td class="label">Investment Gain (Compound Effect)</td><td id="profitOut">-</td></tr>
+      <tr><td class="label">Return on Principal</td><td id="roiOut">-</td></tr>
+    </table>
+
+    <canvas id="compoundChart"></canvas>
+    <div class="note">Calculated using monthly compounding. Actual returns will vary depending on market conditions. Taxes and fees are not included.</div>
+  </div>
+
+  <!-- ETF Dividend Calculator -->
+  <div class="card" id="panelDividend" style="display:none;">
+    <div class="field ticker-select">
+      <label>Select ETF</label>
+      <select id="ticker" onchange="applyTicker()">
+        <option value="custom">Custom / Manual Entry</option>
+        <optgroup label="Dividend Growth / Broad Market">
+          <option value="SCHD|3.5|4">SCHD (Quarterly)</option>
+          <option value="VYM|2.9|4">VYM (Quarterly)</option>
+          <option value="VOO|1.3|4">VOO (Quarterly)</option>
+        </optgroup>
+        <optgroup label="Covered Call / High Income">
+          <option value="JEPI|7.5|12">JEPI (Monthly)</option>
+          <option value="JEPQ|10.0|12">JEPQ (Monthly)</option>
+          <option value="DIVO|4.5|12">DIVO (Monthly)</option>
+          <option value="QDVO|9.0|12">QDVO (Monthly)</option>
+          <option value="QQQI|14.0|12">QQQI (Monthly)</option>
+          <option value="QYLD|11.5|12">QYLD (Monthly)</option>
+        </optgroup>
+      </select>
+    </div>
+    <div class="field">
+      <label>Investment Amount ($)</label>
+      <div class="control-row">
+        <input type="range" id="dInvest" min="0" max="200000" step="1000" value="10000" oninput="syncFromSlider('dInvest')">
+        <input type="text" inputmode="numeric" id="dInvestNum" value="10,000" oninput="syncFromMoneyNumber('dInvest')">
+      </div>
+    </div>
+    <div class="row2">
+      <div class="field">
+        <label>Annual Dividend Yield (%)</label>
+        <div class="control-row">
+          <input type="range" id="dYield" min="0" max="15" step="0.1" value="4" oninput="syncFromSlider('dYield'); markCustom()">
+          <input type="number" id="dYieldNum" value="4" step="0.1" oninput="syncFromNumber('dYield'); markCustom()">
+        </div>
+      </div>
+      <div class="field">
+        <label>Payout Frequency</label>
+        <select id="dFreq" onchange="calcDividend()">
+          <option value="12">Monthly</option>
+          <option value="4" selected>Quarterly</option>
+          <option value="2">Semi-Annual</option>
+          <option value="1">Annual</option>
+        </select>
+      </div>
+    </div>
+    <div class="field">
+      <label>Dividend Tax Rate (%)</label>
+      <div class="control-row">
+        <input type="range" id="dTaxRate" min="0" max="50" step="0.5" value="15" oninput="syncFromSlider('dTaxRate')">
+        <input type="number" id="dTaxRateNum" value="15" step="0.5" oninput="syncFromNumber('dTaxRate')">
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="result-head">Estimated Annual Dividend <span class="badge">Pre-Tax</span></div>
+    <div class="result-num" id="dAnnual">-</div>
+    <div class="underline" id="dUnderline"></div>
+
+    <table>
+      <tr><td class="label">Amount Per Payout (Pre-Tax)</td><td id="dPerPayout">-</td></tr>
+      <tr><td class="label">Estimated Dividend Tax</td><td id="dTax">-</td></tr>
+      <tr><td class="label">Annual Dividend (After Tax)</td><td id="dAfterTax">-</td></tr>
+      <tr><td class="label">Monthly Average (After Tax)</td><td id="dMonthlyAvg">-</td></tr>
+    </table>
+
+    <div class="note">Dividend yields shown when selecting an ETF are <b>rough historical reference figures only</b>. Actual yields change constantly with share price and fund policy — always check current data before investing. The tax rate defaults to 15% as a placeholder; adjust it to match your own country's dividend withholding tax rate.</div>
+  </div>
+
+</div>
+
+<script>
+function fmt(n){ return '$' + Math.round(n).toLocaleString('en-US'); }
+
+// keep slider and number input in sync for a given base id (e.g. 'init' <-> 'initNum')
+const MONEY_FIELDS = ['init','monthly','dInvest'];
+
+function syncFromSlider(id){
+  const num = document.getElementById(id+'Num');
+  const raw = document.getElementById(id).value;
+  num.value = MONEY_FIELDS.includes(id) ? (+raw).toLocaleString('en-US') : raw;
+  runCalcFor(id);
+}
+function syncFromNumber(id){
+  const num = document.getElementById(id+'Num');
+  const slider = document.getElementById(id);
+  let v = +num.value;
+  if(v < +slider.min) v = +slider.min;
+  slider.value = Math.min(v, +slider.max);
+  runCalcFor(id);
+}
+function syncFromMoneyNumber(id){
+  const num = document.getElementById(id+'Num');
+  const slider = document.getElementById(id);
+  const digits = num.value.replace(/[^0-9]/g, '');
+  const v = digits === '' ? 0 : +digits;
+  num.value = v.toLocaleString('en-US');
+  slider.value = Math.min(v, +slider.max);
+  runCalcFor(id);
+}
+function runCalcFor(id){
+  if(['init','monthly','rate','years'].includes(id)) calcCompound();
+  else calcDividend();
+}
+
+function applyTicker(){
+  const sel = document.getElementById('ticker').value;
+  if(sel === 'custom') return;
+  const [name, yieldPct, freq] = sel.split('|');
+  document.getElementById('dYield').value = yieldPct;
+  document.getElementById('dYieldNum').value = yieldPct;
+  document.getElementById('dFreq').value = freq;
+  calcDividend();
+}
+function markCustom(){
+  document.getElementById('ticker').value = 'custom';
+}
+
+function switchTab(name){
+  document.getElementById('tabCompound').classList.toggle('active', name==='compound');
+  document.getElementById('tabDividend').classList.toggle('active', name==='dividend');
+  document.getElementById('panelCompound').style.display = name==='compound' ? 'block':'none';
+  document.getElementById('panelDividend').style.display = name==='dividend' ? 'block':'none';
+}
+
+function calcCompound(){
+  const init = +document.getElementById('initNum').value.replace(/,/g,'');
+  const monthly = +document.getElementById('monthlyNum').value.replace(/,/g,'');
+  const rate = +document.getElementById('rateNum').value;
+  const years = +document.getElementById('yearsNum').value;
+
+  const n = years*12;
+  const r = (rate/100)/12;
+  const history = [];
+  let fv = init;
+  for(let m=1; m<=n; m++){
+    fv = fv*(1+r) + monthly;
+    if(m % 12 === 0) history.push(fv);
+  }
+  const principal = init + monthly*n;
+  const profit = fv - principal;
+  const roi = principal>0 ? (profit/principal*100) : 0;
+
+  document.getElementById('finalAmount').innerHTML = fmt(fv) + ' <small>(after ' + years + ' years)</small>';
+  document.getElementById('principalOut').textContent = fmt(principal);
+  document.getElementById('profitOut').textContent = '+' + fmt(profit);
+  document.getElementById('roiOut').textContent = roi.toFixed(1) + '%';
+
+  setTimeout(()=>{ document.getElementById('cUnderline').style.width = Math.min(100, roi) + '%'; }, 30);
+  drawChart(history, years);
+}
+
+function drawChart(history, years){
+  const canvas = document.getElementById('compoundChart');
+  const dpr = window.devicePixelRatio || 1;
+  const w = canvas.clientWidth, h = 140;
+  canvas.width = w*dpr; canvas.height = h*dpr;
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr,dpr);
+  ctx.clearRect(0,0,w,h);
+
+  const max = Math.max(...history);
+  const pad = 6;
+  ctx.beginPath();
+  ctx.strokeStyle = '#0F5257';
+  ctx.lineWidth = 2;
+  history.forEach((v,i)=>{
+    const x = pad + (i/(history.length-1||1))*(w-pad*2);
+    const y = h - pad - (v/max)*(h-pad*2);
+    if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+  });
+  ctx.stroke();
+
+  ctx.lineTo(w-pad, h-pad); ctx.lineTo(pad, h-pad); ctx.closePath();
+  ctx.fillStyle = 'rgba(15,82,87,0.08)';
+  ctx.fill();
+}
+
+function calcDividend(){
+  const invest = +document.getElementById('dInvestNum').value.replace(/,/g,'');
+  const yieldPct = +document.getElementById('dYieldNum').value;
+  const freq = +document.getElementById('dFreq').value;
+  const taxRate = +document.getElementById('dTaxRateNum').value;
+
+  const annual = invest * (yieldPct/100);
+  const perPayout = annual/freq;
+  const tax = annual * (taxRate/100);
+  const afterTax = annual - tax;
+  const monthlyAvg = afterTax/12;
+
+  document.getElementById('dAnnual').innerHTML = fmt(annual);
+  document.getElementById('dPerPayout').textContent = fmt(perPayout);
+  document.getElementById('dTax').textContent = '-' + fmt(tax);
+  document.getElementById('dAfterTax').textContent = fmt(afterTax);
+  document.getElementById('dMonthlyAvg').textContent = fmt(monthlyAvg);
+
+  setTimeout(()=>{ document.getElementById('dUnderline').style.width = Math.min(100, yieldPct*6) + '%'; }, 30);
+}
+
+calcCompound();
+calcDividend();
+window.addEventListener('resize', ()=>calcCompound());
+</script>
+</body>
+</html>
