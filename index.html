@@ -3,11 +3,10 @@
 <head>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7020644355800868"
      crossorigin="anonymous"></script>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7020644355800868"
-     crossorigin="anonymous"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Compound Interest &amp; Dividend Calculator</title>
+<title>Compound Interest &amp; Dividend Calculator — Free EZDivi Tool</title>
+<meta name="description" content="Free compound interest calculator and ETF dividend calculator. Project your investment growth and estimate monthly or quarterly dividend income from popular ETFs like SCHD, JEPI, JEPQ, and QQQI.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -193,6 +192,36 @@
     border-radius:20px;
     margin-left:6px;
   }
+  .content{margin-top:36px;}
+  .content h2{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:19px;
+    color:var(--teal-deep);
+    margin:28px 0 10px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:8px;
+  }
+  .content h3{
+    font-family:'Inter',sans-serif;
+    font-weight:700;
+    font-size:15px;
+    color:var(--teal-deep);
+    margin:18px 0 6px;
+  }
+  .content p{font-size:14.5px;line-height:1.8;color:var(--ink-soft);margin:0 0 12px;}
+  .content ul{padding-left:20px;margin:0 0 14px;}
+  .content li{font-size:14.5px;line-height:1.75;color:var(--ink-soft);margin-bottom:6px;}
+  footer{
+    margin-top:40px;
+    padding-top:16px;
+    border-top:1px solid var(--line);
+    font-size:12px;
+    color:var(--ink-soft);
+    text-align:center;
+  }
+  footer a{color:var(--teal-deep);text-decoration:none;font-weight:600;}
+  footer a:hover{text-decoration:underline;}
 </style>
 </head>
 <body>
@@ -202,6 +231,12 @@
     <h1>Return Calculator</h1>
     <span>COMPOUND &amp; DIVIDEND</span>
   </div>
+
+  <nav style="margin-bottom:16px;font-size:13px;">
+    <a href="about.html" style="color:var(--ink-soft);text-decoration:none;margin-right:14px;font-weight:600;">About</a>
+    <a href="how-compound-interest-works.html" style="color:var(--ink-soft);text-decoration:none;margin-right:14px;font-weight:600;">How Compounding Works</a>
+    <a href="covered-call-etf-guide.html" style="color:var(--ink-soft);text-decoration:none;margin-right:14px;font-weight:600;">Covered Call ETFs</a>
+  </nav>
 
   <div class="tabs">
     <div class="tab active" id="tabCompound" onclick="switchTab('compound')">Compound Interest</div>
@@ -324,6 +359,52 @@
 
     <div class="note">Dividend yields shown when selecting an ETF are <b>rough historical reference figures only</b>. Actual yields change constantly with share price and fund policy — always check current data before investing. The tax rate defaults to 15% as a placeholder; adjust it to match your own country's dividend withholding tax rate.</div>
   </div>
+
+  <!-- Explanatory content -->
+  <div class="content">
+
+    <h2>What This Tool Does</h2>
+    <p>EZDivi is a free, browser-based calculator with two modes: a <b>compound interest calculator</b> for projecting long-term investment growth, and an <b>ETF dividend calculator</b> for estimating income from dividend-paying or covered-call ETFs. Everything runs locally in your browser — no sign-up, no data collection, no spreadsheets required.</p>
+
+    <h2>How to Use the Compound Interest Calculator</h2>
+    <p>This tab projects how a lump-sum investment plus regular monthly contributions could grow over time, assuming a fixed annual return compounded monthly.</p>
+    <ul>
+      <li><b>Initial Investment</b> — the amount you're starting with today.</li>
+      <li><b>Monthly Contribution</b> — how much you plan to add every month.</li>
+      <li><b>Expected Annual Return</b> — your assumed average yearly growth rate. A common reference point for a diversified stock index fund is 7–10%, but this is not a guarantee — use a number you're comfortable with.</li>
+      <li><b>Investment Period</b> — how many years you plan to keep investing.</li>
+    </ul>
+    <p>The chart shows your projected balance at the end of each year, so you can see how the growth curve accelerates over time as compounding takes effect.</p>
+
+    <h3>Why This Matters</h3>
+    <p>Compounding rewards time in the market more than timing the market. Small, consistent contributions made early tend to outperform larger contributions made later, simply because they have more years to compound. This tool is meant to help you visualize that effect — not to predict your actual future returns.</p>
+
+    <h2>How to Use the ETF Dividend Calculator</h2>
+    <p>This tab estimates the dividend income a given investment amount could generate, based on a chosen ETF's approximate yield and payout schedule.</p>
+    <ul>
+      <li><b>Select ETF</b> — pick a preset (SCHD, JEPI, JEPQ, DIVO, QDVO, QQQI, QYLD, VYM, VOO) to auto-fill a reference yield, or choose "Custom" to enter your own.</li>
+      <li><b>Investment Amount</b> — the dollar amount you're investing in the ETF.</li>
+      <li><b>Annual Dividend Yield</b> — the ETF's trailing 12-month distribution rate as a percentage.</li>
+      <li><b>Payout Frequency</b> — how often the ETF distributes (monthly, quarterly, semi-annual, or annual).</li>
+      <li><b>Dividend Tax Rate</b> — defaults to 15% as a generic placeholder. Change this to match your own country's actual dividend withholding tax rate.</li>
+    </ul>
+
+    <h3>A Note on High-Yield Covered Call ETFs</h3>
+    <p>Some ETFs in the preset list (like QQQI, QYLD, and JEPQ) use covered-call or options-based strategies to generate higher distribution rates. A portion of these distributions can come from <b>return of capital (ROC)</b> rather than pure income, and high distribution rates are sometimes paired with lower long-term total returns compared to simply holding the underlying index. Always check a fund's official distribution breakdown before investing based on yield alone.</p>
+
+    <h2>Frequently Asked Questions</h2>
+    <h3>Is this financial advice?</h3>
+    <p>No. This tool is for educational and illustrative purposes only. It does not account for your personal financial situation, and the preset yields are approximate historical reference points that change over time. Always verify current figures with the fund provider and consult a licensed financial professional before making investment decisions.</p>
+    <h3>Does this calculator store any of my data?</h3>
+    <p>No. All calculations happen directly in your browser. Nothing you enter is saved, transmitted, or stored anywhere.</p>
+    <h3>Why do the numbers change so often for high-yield ETFs?</h3>
+    <p>Distribution rates for actively managed and options-based ETFs can fluctuate month to month depending on market volatility and options premiums. Always check the fund's current factsheet rather than relying on historical averages.</p>
+
+  </div>
+
+  <footer>
+    <a href="about.html">About</a> · <a href="privacy-policy.html">Privacy Policy</a>
+  </footer>
 
 </div>
 
